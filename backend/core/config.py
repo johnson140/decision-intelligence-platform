@@ -2,12 +2,17 @@
 Application configuration settings
 """
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 
 
 class Settings(BaseSettings):
     """Application settings"""
+    
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=True
+    )
     
     # API Settings
     API_V1_PREFIX: str = "/api/v1"
@@ -28,10 +33,6 @@ class Settings(BaseSettings):
     SLOW_MOVING_THRESHOLD_DAYS: int = 90  # Days without sales to be considered slow-moving
     LOW_STOCK_THRESHOLD_PERCENT: float = 0.2  # 20% of average stock level
     REORDER_LEAD_TIME_DAYS: int = 7  # Average lead time for reorders
-    
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
 
 
 settings = Settings()
